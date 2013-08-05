@@ -1,5 +1,7 @@
 var _name="" ;
 var _address="" ;
+var _search="";
+var _id ;
 
 var html5rocks = {};
 html5rocks.webdb = {};
@@ -55,20 +57,33 @@ html5rocks.webdb.deleteTodo = function(id) {
     });
 }
 
+html5rocks.webdb.searchTodo = function(id) {
+  var db = html5rocks.webdb.db;
+  db.transaction(function(tx){
+    tx.executeSql("SELECT * FROM todo WHERE ID=?", [id],
+        function(tx, result){
+        	$('#Search-Results').html((result.rows.item(0).Name));
+        },
+        html5rocks.webdb.onError);
+    });
+}
+
 function loadTodoItems(tx, rs) {
   var rowOutput = "";
-  var todoItems = document.getElementById("Address-Book");
-  
+  var _addressBook = document.getElementById("Address-Book");
+
   for (var i=0; i < rs.rows.length; i++) {
   	rowOutput += renderTodo(rs.rows.item(i));
   }
 
-  todoItems.innerHTML = rowOutput;
+  _addressBook.innerHTML = rowOutput;
 }
 
+
 function renderTodo(row) {
-  return "<li>" + row.Name + " , " +row.Address + " [<a href='javascript:void(0);'  onclick='html5rocks.webdb.deleteTodo(" + row.ID +");'>Delete</a>]</li>";
+  return "<li>" + row.ID + " : " +row.Name + " , " +row.Address + "</li>";
 }
+
 
 function init() {
   html5rocks.webdb.open();
@@ -82,6 +97,15 @@ function addTodo() {
    html5rocks.webdb.addTodo(_name, _address);
 }
 
+function deleteRecord(){
+	_id = document.getElementById("Delete").value;
+	html5rocks.webdb.deleteTodo(_id);
+}
+
+function searchRecord(){
+	_id = parseInt(document.getElementById("Search").value);
+	html5rocks.webdb.searchTodo(_id);
+}
 
 
 
