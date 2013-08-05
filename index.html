@@ -3,15 +3,54 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Online-Address-Book</title>
+	<link rel="stylesheet" href="css/style.css">
 	<script type="text/javascript" src="js/main.js"></script>
 </head>
-<body>
-	<div id = "Person-Data">
-		<form action="" method="get">
-                <p>Name
-                    <input type="text" name="Enter Name" id="Name" />
+<body onload="init();">
+	<div id = "Person-Data">Person-Data
+		<form action="" method="get" onsubmit="addTodo();">
+                <p>Name &nbsp;&nbsp;
+                    <input type="text" name="Enter Name" id="Name" placeholder="Enter Name"/>
                 </p>
+                 <p>Address
+                    <input type="text" name="Enter Address" id="Address" placeholder="Enter Address"/>
+                	<input type="submit" value="Submit"/>
+                </p>
+                
             </form>		
 	</div>
+	<div id = "Query">Query
+		<form action="" method="get">
+                <p>Search Query
+                    <input type="text" name="Search" id="Search" placeholder="Search Query"/>
+                	<button>Search</button>
+                </p>
+        </form>	
+        <form action="" method="get">
+                <p>Delete Query
+                    <input type="text" name="Delete" id="Delete" placeholder="Delete Query"/>
+                	<button>Delete</button>
+                </p>
+        </form>	
+
+	</div>
+
+	<div id ="Sort">Sort
+		<form action="" method="get">
+			<input type="radio" name="Sort" value="Sortbynames">Sort By Name<br>
+			<input type="radio" name="Sort" value="Sortbyadd">Sort By 
+			Add
+			<button>Sort</button>
+		</form>
+	</div>
+
+	<div>Address-Book
+		<ul id="Address-Book">
+		</ul>
+	</div>
+
+	<div id="Search-Results">Search-Results
+	</div>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 </body>
 </html>
