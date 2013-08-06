@@ -164,6 +164,9 @@ $("#sortButton").click(function() {
 });
 
 
+$(document).ready(function (){
+      init();
+});
 
 
 
