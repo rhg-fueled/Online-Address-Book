@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Online-Address-Book</title>
+	<link rel="stylesheet" href="css/style.css">
+	<script type="text/javascript" src="js/main.js"></script>
+</head>
+<body onload="init();">
+	<div id = "Person-Data">Person-Data
+		
+                <p>Name &nbsp;&nbsp;
+                    <input type="text" name="Enter Name" id="Name" placeholder="Enter Name"/>
+                </p>
+                 <p>Address
+                    <input type="text" name="Enter Address" id="Address" placeholder="Enter Address"/>
+                	<button onclick="addTodo();" >Submit</button>
+                </p>
+                	
+	</div>
+	<div id = "Query">Query
+                <p>Search Query
+                    <input type="text" name="Search" id="Search" placeholder="Search Query"/>
+                	<button onclick="searchRecord();">Search</button>
+                </p>
+        
+                <p>Delete Query
+                    <input type="text" name="Delete" id="Delete" placeholder="Delete Query"/>
+                	<button onclick="deleteRecord();">Delete</button>
+                </p>
+      
+	</div>
+
+	<div id ="Sort">Sort</br>
+		
+			<input type="radio" id="radioButtonName" name="Sort" value="Sortbynames">Sort By Name<br>
+			<input type="radio" id="radioButtonAddress" name="Sort" value="Sortbyadd">Sort By 
+			Address
+			<button onclick="sortRecord();" >Sort</button>
+		
+	</div>
+	<div id="Address-Book">Address-Book
+	</div>
+
+	<div id="Search-Results">Search-Results
+	</div>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+</body>
+</html>
