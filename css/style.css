@@ -6,16 +6,6 @@ div{
 	padding: 10px 10px 10px 10px;
 }
 
-<<<<<<< HEAD
-#Address-Book {
-	width: 200px;
-	height: 200px;
-}
-
-#Search-Results {
-	width: 200px;
-	height: 200px;
-=======
 #Name {
 	margin : 0 0 0 15px;
 }
@@ -23,5 +13,4 @@ div{
 th {
 	text-align: center;
 	background : #C0C0C0 ;
->>>>>>> gh-pages
 }
