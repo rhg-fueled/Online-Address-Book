@@ -5,6 +5,7 @@ var _id ;
 var _rb1;
 var _rb2;
 var type="";
+var string = "";
 
 var html5rocks = {};
 html5rocks.webdb = {};
@@ -63,31 +64,57 @@ html5rocks.webdb.sortRecords = function(renderFunc, type) {
 html5rocks.webdb.deleteTodo = function(id) {
   var db = html5rocks.webdb.db;
   db.transaction(function(tx){
-    tx.executeSql("DELETE FROM todo WHERE ID=?", [id],
+    tx.executeSql("DELETE FROM todo WHERE Name=?", [id],
         html5rocks.webdb.onSuccess,
         html5rocks.webdb.onError);
     });
 }
 
-html5rocks.webdb.searchTodo = function(id) {
+html5rocks.webdb.searchTodo = function(renderFunc, id) {
   var db = html5rocks.webdb.db;
   db.transaction(function(tx){
-    tx.executeSql("SELECT * FROM todo WHERE Name=?", [id],
-        function(tx, result){
-        	$('#Search-Results').html((result.rows.item(0).ID)+" : " +
-            (result.rows.item(0).Name)+ " , " +
-            (result.rows.item(0).Address));
-        },
+    tx.executeSql("SELECT * FROM todo WHERE Name=?", [id], renderFunc,
         html5rocks.webdb.onError);
     });
 }
 
 function loadTodoItems(tx, rs) {
-  var rowOutput = "";
-  var _addressBook = document.getElementById("Address-Book");
+ var rowOutput = "Address-Book";
+ var _addressBook = document.getElementById("Address-Book");
+
+  rowOutput+="<table width='100%' > <tr>";
+
+  rowOutput += "<th align='center' bgcolor=\"#C0C0C0\" > ID </th>";
+  rowOutput += "<th align='center' bgcolor=\"#C0C0C0\" > Name </th>";
+  rowOutput += "<th align='center' bgcolor=\"#C0C0C0\" > Address </th>";
+
+  rowOutput += "</tr>";
 
   for (var i=0; i < rs.rows.length; i++) {
-  	rowOutput += renderTodo(rs.rows.item(i));
+    rowOutput +=" <tr>";
+    rowOutput += renderTodo(rs.rows.item(i));
+    rowOutput += "</tr>";
+  }
+
+  _addressBook.innerHTML = rowOutput;
+}
+
+function loadTodoItems2(tx, rs) {
+  var rowOutput = "Search-Results";
+  var _addressBook = document.getElementById("Search-Results");
+
+  rowOutput+="<table width='100%' > <tr>";
+
+  rowOutput += "<th align='center' bgcolor=\"#C0C0C0\" > ID </th>";
+  rowOutput += "<th align='center' bgcolor=\"#C0C0C0\" > Name </th>";
+  rowOutput += "<th align='center' bgcolor=\"#C0C0C0\" > Address </th>";
+
+  rowOutput += "</tr>";
+
+  for (var i=0; i < rs.rows.length; i++) {
+    rowOutput +=" <tr>";
+    rowOutput += renderTodo(rs.rows.item(i));
+    rowOutput += "</tr>";
   }
 
   _addressBook.innerHTML = rowOutput;
@@ -95,7 +122,11 @@ function loadTodoItems(tx, rs) {
 
 
 function renderTodo(row) {
-  return "<li>" + row.ID + " : " +row.Name + " , " +row.Address + "</li>";
+
+  return "<td>" + row.ID + "</td>" + 
+         "<td>" + row.Name + "</td>" + 
+         "<td>" + row.Address + "</td>";
+ 
 }
 
 
@@ -109,16 +140,18 @@ function addTodo() {
    _name = document.getElementById("Name").value;
    _address = document.getElementById("Address").value;
    html5rocks.webdb.addTodo(_name, _address);
+   html5rocks.webdb.getAllTodoItems(loadTodoItems);
 }
 
 function deleteRecord(){
 	_id = document.getElementById("Delete").value;
 	html5rocks.webdb.deleteTodo(_id);
+  html5rocks.webdb.getAllTodoItems(loadTodoItems);
 }
 
 function searchRecord(){
 	_id = (document.getElementById("Search").value);
-	html5rocks.webdb.searchTodo(_id);
+	html5rocks.webdb.searchTodo(loadTodoItems2, _id);
 }
 
 function sortRecord(){
@@ -131,109 +164,3 @@ function sortRecord(){
 
   html5rocks.webdb.sortRecords(loadTodoItems, type);
 }
-
-
-
-// function initTable(){
-
-// 	var tags = ["id", "Name",
-// 	"Address"
-// 	];
-	
-// 	newTable = "<table width='100%' style=\" border: 1px solid black; \" ><tr>";
-	
-// 	for(var i=0; i<tags.length; i++)
-// 		newTable += "<th align='center' bgcolor=\"#C0C0C0\" >" + tags[i] + "</th>";
-// 	newTable += "</tr>";
-
-// }
-
-// //style=\" border: 1px solid black; \"
-
-// function _insertData(){	
-// 			newTable+="	<tr>";		
-// 			newTable += "<td align='center'>" + "0" + "</td>";
-// 			newTable += "<td align='center'>" + "_name" + "</td>";
-// 			newTable += "<td align='center'>" + "_address"+ "</td>";
-// 			newTable += "</tr>";		
-// }
-
-
-// function endTable(){
-// 	newTable += "</table>";
-// }
-
-// function loadTable(){
-// 	document.getElementById("Address-Book").innerHTML = newTable;
-// }
-
-
-
-// function getData(){
-
-// 		_name = $("#Address").val();
-// 		_address = $("#Name").val();
-		
-// 		// _insertData();
-// 		// endTable();
-// 		// loadTable();
-		
-// 	}
-
-// function main(){
-	
-// 	// initTable();
-// }
-
-
-
-
-
-
-
-
-
-
-
-// function sortData(tagID, sortAsc){
-// 	items.sort(function(a, b) {
-//     var avalue = a[tagID],
-//         bvalue = b[tagID];
-    
-//     switch (sortAsc)
-//     {    
-// 	    case 0 : 
-// 	    {
-// 	    	if (avalue < bvalue) {
-// 	        return -1;
-// 	    	}
-// 		    if (avalue > bvalue) {
-// 		        return 1;
-// 		    }
-// 		}break;
-
-// 	    case 1 : 
-// 	    {
-// 	    	if (avalue > bvalue) {
-// 	        return -1;
-// 	    	}
-// 		    if (avalue < bvalue) {
-// 		        return 1;
-// 		    }
-
-// 		} break;
-
-		
-// 	}
-
-//     return 0;
-// });
-
-//}
-
-
-
-// if($("#Name").val()=="")
-// 	{
-// 		alert("incomplete form");
-// 	}

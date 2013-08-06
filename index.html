@@ -8,32 +8,30 @@
 </head>
 <body onload="init();">
 	<div id = "Person-Data">Person-Data
-		<form action="" method="get" onsubmit="addTodo();">
+		
                 <p>Name &nbsp;&nbsp;
                     <input type="text" name="Enter Name" id="Name" placeholder="Enter Name"/>
                 </p>
                  <p>Address
                     <input type="text" name="Enter Address" id="Address" placeholder="Enter Address"/>
-                	<input type="submit" value="Submit"/>
+                	<button onclick="addTodo();" >Submit</button>
                 </p>
-                
-            </form>		
+                	
 	</div>
 	<div id = "Query">Query
                 <p>Search Query
                     <input type="text" name="Search" id="Search" placeholder="Search Query"/>
                 	<button onclick="searchRecord();">Search</button>
                 </p>
-        <form action="" method="get" onsubmit="deleteRecord();">
+        
                 <p>Delete Query
                     <input type="text" name="Delete" id="Delete" placeholder="Delete Query"/>
-                	<button>Delete</button>
+                	<button onclick="deleteRecord();">Delete</button>
                 </p>
-        </form>	
-
+      
 	</div>
 
-	<div id ="Sort">Sort
+	<div id ="Sort">Sort</br>
 		
 			<input type="radio" id="radioButtonName" name="Sort" value="Sortbynames">Sort By Name<br>
 			<input type="radio" id="radioButtonAddress" name="Sort" value="Sortbyadd">Sort By 
@@ -41,16 +39,12 @@
 			<button onclick="sortRecord();" >Sort</button>
 		
 	</div>
-
-	<div>Address-Book
-		<ul id="Address-Book">
-		</ul>
+	<div id="Address-Book">Address-Book
 	</div>
 
-	<div>Search-Results
-		<ul id="Search-Results">
-		</ul>
+	<div id="Search-Results">Search-Results
 	</div>
+
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 </body>
 </html>
