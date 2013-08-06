@@ -34,12 +34,12 @@
 	</div>
 
 	<div id ="Sort">Sort
-		<form action="" method="get">
-			<input type="radio" name="Sort" value="Sortbynames">Sort By Name<br>
-			<input type="radio" name="Sort" value="Sortbyadd">Sort By 
+		
+			<input type="radio" id="radioButtonName" name="Sort" value="Sortbynames">Sort By Name<br>
+			<input type="radio" id="radioButtonAddress" name="Sort" value="Sortbyadd">Sort By 
 			Address
-			<button>Sort</button>
-		</form>
+			<button onclick="sortRecord();" >Sort</button>
+		
 	</div>
 
 	<div>Address-Book

@@ -2,6 +2,9 @@ var _name="" ;
 var _address="" ;
 var _search="";
 var _id ;
+var _rb1;
+var _rb2;
+var type="";
 
 var html5rocks = {};
 html5rocks.webdb = {};
@@ -36,7 +39,7 @@ html5rocks.webdb.onError = function(tx, e) {
 html5rocks.webdb.onSuccess = function(tx, r) {
   // re-render the data.
   alert("onSuccess");
-  html5rocks.webdb.getAllTodoItems(loadTodoItems);
+  //html5rocks.webdb.getAllTodoItems(loadTodoItems);
 }
 
 
@@ -47,6 +50,15 @@ html5rocks.webdb.getAllTodoItems = function(renderFunc) {
         html5rocks.webdb.onError);
   });
 }
+
+html5rocks.webdb.sortRecords = function(renderFunc, type) {
+  var db = html5rocks.webdb.db;
+  db.transaction(function(tx) {
+    tx.executeSql("SELECT * FROM todo ORDER BY " + type, [], renderFunc,
+        html5rocks.webdb.onError);
+  });
+}
+
 
 html5rocks.webdb.deleteTodo = function(id) {
   var db = html5rocks.webdb.db;
@@ -60,9 +72,11 @@ html5rocks.webdb.deleteTodo = function(id) {
 html5rocks.webdb.searchTodo = function(id) {
   var db = html5rocks.webdb.db;
   db.transaction(function(tx){
-    tx.executeSql("SELECT * FROM todo WHERE ID=?", [id],
+    tx.executeSql("SELECT * FROM todo WHERE Name=?", [id],
         function(tx, result){
-        	$('#Search-Results').html((result.rows.item(0).Name));
+        	$('#Search-Results').html((result.rows.item(0).ID)+" : " +
+            (result.rows.item(0).Name)+ " , " +
+            (result.rows.item(0).Address));
         },
         html5rocks.webdb.onError);
     });
@@ -103,8 +117,19 @@ function deleteRecord(){
 }
 
 function searchRecord(){
-	_id = parseInt(document.getElementById("Search").value);
+	_id = (document.getElementById("Search").value);
 	html5rocks.webdb.searchTodo(_id);
+}
+
+function sortRecord(){
+  _rb1 = (document.getElementById("radioButtonName").checked);
+  //_rb2 = (document.getElementById("radioButtonAddress").checked); 
+  if(_rb1)
+    type = "Name";
+  else
+    type = "Address";
+
+  html5rocks.webdb.sortRecords(loadTodoItems, type);
 }
 
 
