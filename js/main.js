@@ -67,7 +67,7 @@ addressBook.webdb.getAlladdressBookItems = function(renderFunc) {
 addressBook.webdb.sortRecords = function(renderFunc, _sortBy) {
   var db = addressBook.webdb.db;
   db.transaction(function(tx) {
-    tx.executeSql("SELECT * FROM addressBook ORDER BY " + _sortBy, [], renderFunc,
+    tx.executeSql("SELECT * FROM addressBook ORDER BY " + _sortBy + " COLLATE NOCASE ASC" , [], renderFunc,
         addressBook.webdb.onError);
   });
 }
@@ -85,10 +85,11 @@ addressBook.webdb.deleteaddressBook = function(id) {
 
 addressBook.webdb.searchaddressBook = function(renderFunc, id) {
   var db = addressBook.webdb.db;
-  db.transaction(function(tx){
-    tx.executeSql("SELECT * FROM addressBook WHERE Name LIKE ? ", [id+"%"], renderFunc,
-        addressBook.webdb.onError);
-    });
+  if(id != ""){
+      db.transaction(function(tx){
+        tx.executeSql("SELECT * FROM addressBook WHERE Name LIKE ? ", [id+"%"], renderFunc,
+            addressBook.webdb.onError);
+        });}
 }
 
 function loadaddressBookItems(tx, rs) {
@@ -146,8 +147,8 @@ $("#deleteButton").click(function() {
 
 
 $("#searchButton").click(function() {
-    _displaySpace = "Search-Results";
-  	addressBook.webdb.searchaddressBook(loadaddressBookItems, _search.value);
+    _displaySpace = "Search-Results"; 
+  	 addressBook.webdb.searchaddressBook(loadaddressBookItems, _search.value);
 });
 
 
